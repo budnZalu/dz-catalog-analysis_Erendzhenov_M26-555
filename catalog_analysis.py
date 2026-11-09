@@ -217,6 +217,25 @@ def ratings_above_average(movies):
     }
 
 
+# Этап 7. Множества.
+def all_genres(movies):
+    """Объединить жанры всех фильмов в одно множество."""
+    genres = set()
+    for movie in movies:
+        genres.update(movie["genres"])
+    return genres
+
+
+def common_actors(movie1, movie2):
+    """Найти актеров, участвовавших в обоих фильмах."""
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+
+def genres_only_in_one(movies_a, movies_b):
+    """Вернуть жанры первого каталога, отсутствующие во втором."""
+    return all_genres(movies_a) - all_genres(movies_b)
+
+
 def main():
     print(f"Средний рейтинг: {average_rating(movies)}")
     print(f"Возраст фильмов: {catalog_age_stats(movies)}")
