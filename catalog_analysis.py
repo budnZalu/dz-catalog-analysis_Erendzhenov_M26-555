@@ -178,7 +178,7 @@ def format_report_line(movie):
 
 # Этап 5. Списки.
 def titles_sorted_by_rating(movies):
-    """Вернуть названия по убыванию рейтинга, сохранив исходный порядок данных."""
+    """Вернуть названия по убыванию рейтинга, не изменяя исходный каталог."""
     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
     return [movie["title"] for movie in sorted_movies]
 
@@ -255,22 +255,63 @@ def total_duration_above_seven(movies):
     return sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
 
 
-def main():
-    print(f"Средний рейтинг: {average_rating(movies)}")
-    print(f"Возраст фильмов: {catalog_age_stats(movies)}")
-    duration = duration_in_hours(movies[0]["duration_min"])
-    print(f"Длительность первого фильма: {duration}")
+# Этап 9. Итоговый отчет.
+def build_report(movies):
+    """Напечатать отчет по каталогу и демонстрации циклов и генератора."""
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+    if not movies:
+        print("Каталог пуст.")
+        return
+
+    oldest, newest, average_age = catalog_age_stats(movies)
+    print(f"Всего фильмов: {len(movies)}")
+    print(f"Средний рейтинг: {average_rating(movies):.1f}")
+    print(f"Возраст самого старого фильма (лет): {oldest}")
+    print(f"Возраст самого нового фильма (лет): {newest}")
+    print(f"Средний возраст фильмов: {average_age} лет")
+    print(f"Фильмов длиннее 120 минут: {count_long_movies(movies)}")
+    print(
+        "Суммарная длительность фильмов с рейтингом выше 7: "
+        f"{total_duration_above_seven(movies)} мин"
+    )
+
+    print("\nТоп-3 фильма:")
+    movies_by_title = {movie["title"]: movie for movie in movies}
+    for title, _rating in top_n_by_rating(movies):
+        print(f"  {format_report_line(movies_by_title[title])}")
+
+    print("\nФильмов по жанрам:")
+    genre_counts = count_by_genre(movies)
+    for genre, count in sorted(
+        genre_counts.items(), key=lambda item: (-item[1], item[0])
+    ):
+        print(f"  {genre} — {count}")
+    print("\nВсе жанры каталога: " + ", ".join(sorted(all_genres(movies))))
+
+    print("\nКатегории фильмов по убыванию рейтинга:")
+    for title in titles_sorted_by_rating(movies):
+        movie = movies_by_title[title]
+        print(
+            f"  {normalize_title(title)} — {rating_tier(movie['rating'])}, "
+            f"{decade_label(movie['year'])}, слаг: {make_slug(title)}"
+        )
+
+    print("\nФильмы с рейтингом выше среднего:")
+    for title, rating in ratings_above_average(movies).items():
+        print(f"  {normalize_title(title)} — {rating:.1f}/10")
+
+    print("\nФильмография актеров:")
+    for actor, titles in sorted(actor_filmography(movies).items()):
+        film_titles = ", ".join(normalize_title(title) for title in titles)
+        print(f"  {actor}: {film_titles}")
+
     print("\nФильмы без жанра comedy:")
     print_non_comedy_movies(movies)
     print("\nПервый фильм с рейтингом выше 9.0:")
     print_first_masterpiece(movies)
     print("\nФильмы с рейтингом не ниже 8.0:")
     print_high_rated_movies(movies)
-    print(
-        f"\nСуммарная длительность фильмов с рейтингом выше 7: "
-        f"{total_duration_above_seven(movies)} мин"
-    )
 
 
 if __name__ == "__main__":
-    main()
+    build_report(movies)
