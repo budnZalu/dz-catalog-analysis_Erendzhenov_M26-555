@@ -236,6 +236,25 @@ def genres_only_in_one(movies_a, movies_b):
     return all_genres(movies_a) - all_genres(movies_b)
 
 
+# Этап 8. Итераторы и генераторы.
+def iter_high_rated(movies, min_rating=8.0):
+    """Лениво выдавать фильмы с рейтингом не ниже заданного порога."""
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
+def print_high_rated_movies(movies):
+    """Продемонстрировать обход генератора с форматированием каждого фильма."""
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+
+def total_duration_above_seven(movies):
+    """Сложить минуты фильмов с рейтингом строго выше 7 без промежуточного списка."""
+    return sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
+
+
 def main():
     print(f"Средний рейтинг: {average_rating(movies)}")
     print(f"Возраст фильмов: {catalog_age_stats(movies)}")
@@ -245,6 +264,12 @@ def main():
     print_non_comedy_movies(movies)
     print("\nПервый фильм с рейтингом выше 9.0:")
     print_first_masterpiece(movies)
+    print("\nФильмы с рейтингом не ниже 8.0:")
+    print_high_rated_movies(movies)
+    print(
+        f"\nСуммарная длительность фильмов с рейтингом выше 7: "
+        f"{total_duration_above_seven(movies)} мин"
+    )
 
 
 if __name__ == "__main__":
