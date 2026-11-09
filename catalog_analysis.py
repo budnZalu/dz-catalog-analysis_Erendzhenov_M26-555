@@ -153,6 +153,29 @@ def count_long_movies(movies, threshold=120):
     return count
 
 
+# Этап 4. Строки.
+def normalize_title(title):
+    """Сделать первую букву каждого слова заглавной и убрать лишние пробелы."""
+    words = title.split()
+    return " ".join(word[0].upper() + word[1:] for word in words)
+
+
+def make_slug(title):
+    """Преобразовать название в строку со строчными буквами и дефисами."""
+    return normalize_title(title).lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    """Собрать описание фильма с нормализованным названием и списком жанров."""
+    title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    return (
+        f'"{title}" ({movie["year"]}) — {movie["rating"]:.1f}/10, '
+        f"{duration}, жанры: {genres}"
+    )
+
+
 def main():
     print(f"Средний рейтинг: {average_rating(movies)}")
     print(f"Возраст фильмов: {catalog_age_stats(movies)}")
