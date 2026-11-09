@@ -123,11 +123,45 @@ def decade_label(year):
             return "старые"
 
 
+# Этап 3. Циклы.
+def print_non_comedy_movies(movies):
+    """Вывести названия фильмов, не относящихся к комедиям."""
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(movie["title"])
+
+
+def print_first_masterpiece(movies):
+    """Найти первый фильм с рейтингом выше 9.0 или сообщить об отсутствии."""
+    index = 0
+    while index < len(movies):
+        if movies[index]["rating"] > 9.0:
+            print(movies[index]["title"])
+            break
+        index += 1
+    else:
+        print("Шедевров не найдено")
+
+
+def count_long_movies(movies, threshold=120):
+    """Посчитать фильмы, длительность которых строго больше порога."""
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+
 def main():
     print(f"Средний рейтинг: {average_rating(movies)}")
     print(f"Возраст фильмов: {catalog_age_stats(movies)}")
     duration = duration_in_hours(movies[0]["duration_min"])
     print(f"Длительность первого фильма: {duration}")
+    print("\nФильмы без жанра comedy:")
+    print_non_comedy_movies(movies)
+    print("\nПервый фильм с рейтингом выше 9.0:")
+    print_first_masterpiece(movies)
 
 
 if __name__ == "__main__":
