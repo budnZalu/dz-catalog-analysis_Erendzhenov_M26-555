@@ -1,7 +1,8 @@
 [project]
-name = "catalog-analysis"
+name = "dz-catalog-analysis-erendzhenov-m26-555"
 version = "0.1.0"
-description = "Учебный проект для анализа каталога фильмов"
+description = "Учебный проект для анализа каталога фильмов, группа M26-555"
+authors = [{ name = "Эрендженов (Erendzhenov)" }]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []

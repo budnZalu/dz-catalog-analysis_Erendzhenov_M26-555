@@ -1,5 +1,11 @@
 # Анализ каталога фильмов
 
+Автор: **Эрендженов (Erendzhenov)**.
+
+Группа: **M26-555**.
+
+[Репозиторий проекта](https://github.com/budnZalu/dz-catalog-analysis_Erendzhenov_M26-555).
+
 Учебный проект на Python 3.12: анализ каталога из 10 фильмов без библиотек
 анализа данных. Все девять этапов реализованы функциями в `catalog_analysis.py`.
 Единственный импорт в решении — стандартный модуль `math`.
@@ -55,7 +61,11 @@ uv run python -c 'from catalog_analysis import movies, print_first_masterpiece; 
 
 Ожидаемый результат: `Шедевров не найдено`.
 
-Проект создан без упаковки командой
-`uv init --python 3.12 --no-package --name catalog-analysis .`.
+Для создания такого проекта без упаковки:
+
+```sh
+uv init --python 3.12 --no-package --name dz-catalog-analysis-erendzhenov-m26-555 .
+```
+
 В новых версиях uv флаг `--no-package` сохраняет структуру с одним скриптом
 без каталога `src/`.
