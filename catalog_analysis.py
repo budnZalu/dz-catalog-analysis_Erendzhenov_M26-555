@@ -176,6 +176,19 @@ def format_report_line(movie):
     )
 
 
+# Этап 5. Списки.
+def titles_sorted_by_rating(movies):
+    """Вернуть названия по убыванию рейтинга, сохранив исходный порядок данных."""
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [movie["title"] for movie in sorted_movies]
+
+
+def top_n_by_rating(movies, n=3):
+    """Вернуть до n пар (название, рейтинг) лучших фильмов."""
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [(movie["title"], movie["rating"]) for movie in sorted_movies[:n]]
+
+
 def main():
     print(f"Средний рейтинг: {average_rating(movies)}")
     print(f"Возраст фильмов: {catalog_age_stats(movies)}")
